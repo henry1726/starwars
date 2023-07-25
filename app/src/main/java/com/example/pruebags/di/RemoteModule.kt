@@ -30,7 +30,7 @@ object RemoteModule {
     fun provideApi(okHttpClient: OkHttpClient) :  GSApi {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("https://akabab.github.io/starwars-api/")
+            .baseUrl("https://rickandmortyapi.com/")
             .client(okHttpClient)
             .build()
             .create(GSApi::class.java)

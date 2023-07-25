@@ -1,8 +1,10 @@
 package com.example.pruebags.ui.detail
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pruebags.data.models.CharacterResponse
 import com.example.pruebags.data.models.CharactersResponse
 import com.example.pruebags.domain.repositories.CharacterRepository
 import com.example.pruebags.utils.Resource
@@ -17,12 +19,14 @@ class CharacterDetailViewModel @Inject constructor(
     private val respository : CharacterRepository
 ) : ViewModel() {
 
-    private val _res = MutableLiveData<Resource<CharactersResponse>>()
+    private val _res = MutableLiveData<Resource<CharacterResponse>>()
     val res get() = _res
 
     fun getAll() = viewModelScope.launch {
         _res.postValue(Resource.loading(null))
         try {
+            val resp = respository.getAllCharacters()
+            Log.e("TAG", "getAll: $resp")
             respository.getAllCharacters().let { response ->
                 if(response.isSuccessful){
                     _res.postValue(Resource.success(response.body()!!))
